@@ -1,0 +1,16 @@
+{
+  "name": "docker-vs-kubernetes-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Orchestration Threshold — the identical container pipeline feeding Docker and Kubernetes, plus a workload-scoring model that answers which machinery a workload justifies.",
+  "scripts": {
+    "start": "node app/server.js",
+    "test": "node --test \"test/*.test.mjs\"",
+    "prove": "node scripts/prove.mjs",
+    "check": "npm test && npm run prove"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

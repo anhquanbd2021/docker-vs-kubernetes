@@ -1,0 +1,42 @@
+/* tokens.css — direction "atlas-grid" (generated; do not hand-edit) */
+:root {
+  --color-bg: #f6f8fb;
+  --color-text: #16243a;
+  --color-surface: #ffffff;
+  --color-accent-fill: #1a4e8e;
+  --color-accent-text: #ffffff;
+  --color-on-accent: #ffffff;
+  --accent-50: #eff6ff;
+  --accent-100: #dcebff;
+  --accent-200: #b9d7ff;
+  --accent-300: #8cbdff;
+  --accent-400: #6fa2e6;
+  --accent-500: #5286cb;
+  --accent-600: #3a6aa8;
+  --accent-700: #24518b;
+  --accent-800: #103b6f;
+  --accent-900: #002756;
+  --accent-950: #001534;
+  --step-xs: 12px;
+  --step-sm: 14px;
+  --step-base: 16px;
+  --step-lg: 20px;
+  --step-xl: 28px;
+  --step-2xl: 40px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --font-heading: Archivo, sans-serif;
+  --font-body: Source Sans 3, sans-serif;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

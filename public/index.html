@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Orchestration Threshold — see the identical container pipeline feeding Docker and Kubernetes, then score your workload to learn which machinery it actually justifies.">
+  <title>Orchestration Threshold — Docker or Kubernetes?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:wght@400;600&display=swap">
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/styles.css">
+<!-- pb-shell --><link rel="stylesheet" href="./pb-shell.css"><!-- pb-shell --><!-- pb-back --><link rel="stylesheet" href="./pb-back.css"><!-- pb-back --></head>
+<body>
+<a class="skip-link" href="#model">Skip to the decision model</a>
+<main>
+  <nav aria-label="Primary"><a aria-current="page" href="/">Lab</a><a href="/guide.html">Guide</a><a href="https://github.com/anhquanbd2021/docker-vs-kubernetes">Source</a></nav>
+  <header class="hero">
+    <div><p class="eyebrow">Orchestration Threshold · a wrong-question lab</p><h1>Docker or Kubernetes? Score the workload, not the rivalry.</h1><p class="lede">The two are layers of the same stack, not alternatives. Watch one identical pipeline feed both paths — then describe your workload and see which machinery it justifies, and exactly which requirements tip the balance.</p></div>
+    <p class="warning"><strong>Educational model.</strong> The scorer is a teaching heuristic built from the article's argument — real trade-offs, simplified inputs. Nothing leaves your browser.</p>
+  </header>
+
+  <section class="pipe" aria-label="Container pipeline visualizer">
+    <div class="section-heading"><div><p class="eyebrow">The pipeline</p><h2>The first half is identical for everyone</h2></div></div>
+    <p class="muted">Write code, write a Dockerfile, build, push — whether the target is a laptop or a hundred-node fleet, the sequence starts the same way. Click any stage.</p>
+    <ol id="shared-stages" class="stages shared" aria-label="Shared build stages"></ol>
+    <div class="fork" role="note">
+      <p class="fork-title">One image. Two operating models.</p>
+      <p class="fork-note">Kubernetes consumes what Docker produces — the debate starts after the image exists, not before.</p>
+    </div>
+    <div class="lanes">
+      <section class="lane lane-docker" aria-labelledby="lane-docker-title">
+        <h3 id="lane-docker-title">Docker path · run it on one host</h3>
+        <p class="lane-summary">One machine, one operator. The image becomes a container; you decide what goes where.</p>
+        <div id="docker-lane"></div>
+      </section>
+      <section class="lane lane-k8s" aria-labelledby="lane-k8s-title">
+        <h3 id="lane-k8s-title">Kubernetes path · declare it to a fleet</h3>
+        <p class="lane-summary">Same image, new machinery. You describe the desired end state; controllers close the gap.</p>
+        <div id="k8s-lane"></div>
+      </section>
+    </div>
+    <div class="panel stage-detail" aria-live="polite">
+      <p class="eyebrow">Stage detail</p>
+      <h3 id="stage-title">Pick a stage</h3>
+      <p id="stage-detail" class="muted">Every stage above is a real step or component — click one to see what it does and why it exists on that path.</p>
+    </div>
+  </section>
+
+  <section class="model" id="model" aria-label="Orchestration threshold decision model">
+    <div class="section-heading"><div><p class="eyebrow">The decision model</p><h2>Which machinery does your workload justify?</h2></div></div>
+    <p class="muted">Describe the workload, not the tooling preference. The model counts the requirements that pull toward fleet orchestration — services, hosts, replicas, traffic shape, deploy cadence, team size — and names what tipped the balance.</p>
+
+    <div class="presets" role="group" aria-label="Preset workloads">
+      <span class="eyebrow">Presets</span>
+      <div id="preset-row" class="preset-row"></div>
+    </div>
+
+    <form id="workload-form" class="workload-form">
+      <label>Services
+        <input id="in-services" type="number" min="1" max="99" value="3">
+        <span class="hint">distinct deployables</span>
+      </label>
+      <label>Hosts
+        <input id="in-hosts" type="number" min="1" max="99" value="1">
+        <span class="hint">machines to run them on</span>
+      </label>
+      <label>Replicas
+        <input id="in-replicas" type="number" min="1" max="99" value="1">
+        <span class="hint">copies per service — availability</span>
+      </label>
+      <label>Traffic pattern
+        <select id="in-traffic">
+          <option value="steady" selected>steady</option>
+          <option value="bursty">bursty</option>
+        </select>
+        <span class="hint">spikes need autoscaling</span>
+      </label>
+      <label>Deploy cadence
+        <select id="in-deploys">
+          <option value="rare">rare</option>
+          <option value="weekly" selected>weekly</option>
+          <option value="daily">daily</option>
+        </select>
+        <span class="hint">how often you ship</span>
+      </label>
+      <label>Team size
+        <input id="in-team" type="number" min="1" max="200" value="4">
+        <span class="hint">engineers who carry the ops load</span>
+      </label>
+      <button id="score-btn" type="submit">Score this workload</button>
+    </form>
+
+    <div class="verdict panel" aria-live="polite">
+      <div class="section-heading">
+        <div><p class="eyebrow">Verdict</p><h2 id="verdict-label">—</h2></div>
+        <span id="verdict-badge" class="badge" role="status">Not scored yet</span>
+      </div>
+      <div class="scorebar" role="img" id="scorebar" aria-label="Orchestration score">
+        <div class="scorebar-fill" id="scorebar-fill"></div>
+        <div class="scorebar-tick" id="scorebar-tick"><span>Kubernetes threshold</span></div>
+      </div>
+      <p id="verdict-meta" class="muted">Run the scorer to see where your workload lands.</p>
+      <p id="verdict-caution" class="caution" hidden></p>
+      <h3>What tipped the balance</h3>
+      <ol id="reason-list" class="reasons"></ol>
+      <div class="adds">
+        <div>
+          <h3>Docker gives you</h3>
+          <ul id="docker-adds"></ul>
+        </div>
+        <div>
+          <h3>Kubernetes adds</h3>
+          <ul id="k8s-adds"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p><a href="/guide.html">Read what the model proves — and what it doesn't</a> · <a href="https://github.com/anhquanbd2021/docker-vs-kubernetes">Inspect source and tests</a></p>
+</main>
+<script type="module" src="/app.js"></script>
+<!-- pb-shell --><a class="pb-shell" href="https://github.com/anhquanbd2021/docker-vs-kubernetes" title="docker-vs-kubernetes — an Article Playbook demo (view source)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="rgb(45,212,191)"/><rect x="13" y="2" width="9" height="9" rx="2" fill="rgb(45,212,191)" opacity=".45"/><rect x="2" y="13" width="9" height="9" rx="2" fill="rgb(45,212,191)" opacity=".45"/><rect x="13" y="13" width="9" height="9" rx="4.5" fill="rgb(45,212,191)"/></svg><b>docker-vs-kubernetes</b><i>DEMO</i></a><!-- pb-shell --><!-- pb-back --><a class="pb-back" id="pb-back" href="https://github.com/anhquanbd2021/docker-vs-kubernetes" title="Back to the article — docker-vs-kubernetes">← Article <i>PLAYBOOK</i></a><script>(function(){var a=document.getElementById('pb-back');if(!a)return;var h=location.hostname;if(/^(localhost|127\.0\.0\.1|192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[01])\.)/.test(h)){a.href='//'+h+':'+(/^(localhost|127\.0\.0\.1)$/.test(h)?'1234':'30082')+'/microsites/article.html?slug=docker-vs-kubernetes';}})();</script><!-- pb-back --></body>
+</html>
